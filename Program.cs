@@ -34,6 +34,17 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Registrar DataSeeder como IHostedService
 builder.Services.AddHostedService<DataSeeder>();
 
+// Configurar CORS para permitir peticiones desde cualquier URL
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Agregar controladores
 builder.Services.AddControllers();
 
@@ -74,6 +85,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthorization();
 
