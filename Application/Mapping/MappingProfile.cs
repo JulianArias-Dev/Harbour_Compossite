@@ -19,7 +19,8 @@ public class MappingProfile : Profile
 			.ForMember(dest => dest.SelfWeightKg, opt => opt.MapFrom(src => src.SelfWeight))
 			.ForMember(dest => dest.TotalWeightKg, opt => opt.MapFrom(src => src.GetTotalWeight()))
 			.ForMember(dest => dest.ItemCount, opt => opt.MapFrom(src => src.GetItemCount()))
-			.ForMember(dest => dest.PalletTypeName, opt => opt.MapFrom(src => src.PalletTypeSpec!.Name));
+			.ForMember(dest => dest.PalletTypeName, opt => opt.MapFrom(src => src.PalletTypeSpec!.Name))
+			.ForMember(dest => dest.ContainerId, opt => opt.MapFrom(src => src.ParentId));
 
 		CreateMap<PalletTypeSpec, PalletTypeSpecDto>();
 
@@ -29,6 +30,7 @@ public class MappingProfile : Profile
 			.ForMember(dest => dest.TotalWeightKg, opt => opt.MapFrom(src => src.GetTotalWeight()))
 			.ForMember(dest => dest.ItemCount, opt => opt.MapFrom(src => src.GetItemCount()))
 			.ForMember(dest => dest.ContainerTypeName, opt => opt.MapFrom(src => src.ContainerTypeSpec!.Name))
+			.ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.ParentId))
 			.ForMember(dest => dest.SizeInFeet, opt => opt.MapFrom(src => src.GetContainerSizeInFeet()))
 			.ForMember(dest => dest.IsRefrigerated, opt => opt.MapFrom(src => src.IsRefrigerated));
 

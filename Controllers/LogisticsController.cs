@@ -107,7 +107,7 @@ public class LogisticsController : ControllerBase
     /// Obtiene un elemento de almacenamiento completo
     /// </summary>
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(StorageItemResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetStorageItem(string id)
     {
@@ -123,7 +123,58 @@ public class LogisticsController : ControllerBase
                     "NOT_FOUND"));
             }
 
-            return Ok(item);
+            var response = new StorageItemResponseDto
+            {
+                Id = item.Id,
+                Type = item.GetType().Name,
+                SelfWeight = item.SelfWeight,
+                TotalWeight = item.GetTotalWeight(),
+                ParentId = item.ParentId,
+                StatusId = item.StatusId
+            };
+
+            // Si es un contenedor composite, mapear sus contenidos
+            if (item is CompositeStorage composite)
+            {
+                response.Contents = composite.Contents.Select(content => new StorageItemContentDto
+                {
+                    Id = content.Id,
+                    Type = content.GetType().Name,
+                    SelfWeight = content.SelfWeight,
+                    TotalWeight = content.GetTotalWeight(),
+                    ParentId = content.ParentId,
+                    StatusId = content.StatusId
+                }).ToList();
+
+                // Agregar detalles específicos según el tipo
+                if (item is Pallet pallet)
+                {
+                    response.Details = new
+                    {
+                        PalletTypeName = pallet.PalletTypeSpec?.Name,
+                        TypeSpecification = pallet.PalletTypeSpec
+                    };
+                }
+                else if (item is Container container)
+                {
+                    response.Details = new
+                    {
+                        ContainerTypeName = container.ContainerTypeSpec?.Name,
+                        SizeInFeet = container.GetContainerSizeInFeet(),
+                        IsRefrigerated = container.IsRefrigerated,
+                        TypeSpecification = container.ContainerTypeSpec
+                    };
+                }
+            }
+            else if (item is Box box)
+            {
+                response.Details = new
+                {
+                    Destination = box.Destination
+                };
+            }
+
+            return Ok(response);
         }
         catch (Exception ex)
         {

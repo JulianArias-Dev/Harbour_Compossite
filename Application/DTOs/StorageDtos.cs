@@ -31,6 +31,9 @@ public class PalletDetailDto
 	/// Peso total: peso propio + peso de todos los elementos contenidos
 	public decimal TotalWeightKg { get; set; }
 
+	/// Identificador del contenedor padre (null si es elemento raíz)
+	public string? ContainerId { get; set; }
+
 	/// Especificaciones del pallet
 	public PalletTypeSpecDto? TypeSpecification { get; set; }
 }
@@ -53,6 +56,9 @@ public class ContainerDetailDto
 
 	/// Peso total: peso propio + peso de todos los elementos contenidos
 	public decimal TotalWeightKg { get; set; }
+
+	/// Identificador del elemento contenedor padre (null si es elemento raíz)
+	public string? ParentId { get; set; }
 
 	/// Tamaño en pies (20, 40, 45, etc.)
 	public int SizeInFeet { get; set; }

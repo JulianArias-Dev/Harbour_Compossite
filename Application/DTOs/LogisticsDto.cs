@@ -41,6 +41,35 @@ public record LoadCargoDto(
     string ItemId);
 
 /// <summary>
+/// DTO para un elemento contenido con su tipo
+/// </summary>
+public class StorageItemContentDto
+{
+	public string Id { get; set; } = string.Empty;
+	public string Type { get; set; } = string.Empty;
+	public decimal SelfWeight { get; set; }
+	public decimal TotalWeight { get; set; }
+	public string? ParentId { get; set; }
+	public int StatusId { get; set; }
+	public object? Details { get; set; }
+}
+
+/// <summary>
+/// DTO para respuesta de un elemento de almacenamiento con tipo
+/// </summary>
+public class StorageItemResponseDto
+{
+	public string Id { get; set; } = string.Empty;
+	public string Type { get; set; } = string.Empty;
+	public decimal SelfWeight { get; set; }
+	public decimal TotalWeight { get; set; }
+	public string? ParentId { get; set; }
+	public int StatusId { get; set; }
+	public List<StorageItemContentDto> Contents { get; set; } = new();
+	public object? Details { get; set; }
+}
+
+/// <summary>
 /// DTO para respuesta de peso de un elemento
 /// </summary>
 public record StorageItemWeightResponseDto(
