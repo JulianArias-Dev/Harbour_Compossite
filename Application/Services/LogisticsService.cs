@@ -14,44 +14,7 @@ public class LogisticsService : ILogisticsService
     public LogisticsService(IStorageRepository storageRepository)
     {
         _storageRepository = storageRepository ?? throw new ArgumentNullException(nameof(storageRepository));
-    }
-
-    /// <inheritdoc/>
-    public async Task<Box> CreateBoxAsync(decimal selfWeight, string destination)
-    {
-        var box = new Box(selfWeight, destination);
-        return await _storageRepository.AddAsync(box);
-    }
-
-	/// <inheritdoc/>
-	public async Task<Pallet> CreatePalletAsync(int palletTypeSpecId)
-	{
-		var spec = await _storageRepository
-			.GetPalletTypeSpecByIdAsync(palletTypeSpecId);
-
-		if (spec == null)
-			throw new Exception("PalletTypeSpec no encontrado");
-
-		var pallet = new Pallet(spec);
-
-		return await _storageRepository.AddAsync(pallet);
-	}
-
-	/// <inheritdoc/>
-	public async Task<Container> CreateContainerAsync(int containerTypeSpecId)
-    {
-        var container = new Container(containerTypeSpecId);
-        return await _storageRepository.AddAsync(container);
-    }
-
-    /// <inheritdoc/>
-    public async Task<Ship> CreateShipAsync(decimal maxCapacity, decimal minCapacity, bool spotShip = false)
-    {
-        var ship = new Ship(maxCapacity, minCapacity, spotShip);
-        // Nota: Ship no se persiste directamente, se crea en memoria
-        // Si se necesita persistencia, agregar DbSet<Ship> en el contexto
-        return ship;
-    }
+    }    
 
     /// <inheritdoc/>
     public async Task<StorageItem> LoadItemToContainerAsync(string childItemId, string parentItemId)
@@ -126,13 +89,5 @@ public class LogisticsService : ILogisticsService
     public async Task<IEnumerable<T>> GetItemsByTypeAsync<T>() where T : StorageItem
     {
         return await _storageRepository.GetByTypeAsync<T>();
-    }
-
-    /// <inheritdoc/>
-    public async Task<Ship?> GetShipAsync(string shipId)
-    {
-        // Nota: Esta es una implementación simplificada
-        // En producción, se retriaría de la base de datos
-        return null;
     }
 }

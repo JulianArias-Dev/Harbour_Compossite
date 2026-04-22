@@ -38,7 +38,7 @@ public class PalletApplicationService : IPalletApplicationService
 
 		var pallet = new Pallet(spec);
 		var created = await _palletRepository.AddAsync(pallet);
-		return await MapToDetailDtoAsync(created);
+		return MapToDetailDtoAsync(created);
 	}
 
 	public async Task<PalletDetailDto> GetByIdAsync(string id)
@@ -46,7 +46,7 @@ public class PalletApplicationService : IPalletApplicationService
 		var pallet = await _palletRepository.GetWithContentsAsync(id)
 			?? throw new KeyNotFoundException($"Pallet con ID '{id}' no encontrado");
 
-		return await MapToDetailDtoAsync(pallet);
+		return MapToDetailDtoAsync(pallet);
 	}
 
 	public async Task<IEnumerable<PalletDetailDto>> GetAllAsync()
@@ -59,7 +59,7 @@ public class PalletApplicationService : IPalletApplicationService
 			var detailed = await _palletRepository.GetWithContentsAsync(pallet.Id);
 			if (detailed != null)
 			{
-				result.Add(await MapToDetailDtoAsync(detailed));
+				result.Add(MapToDetailDtoAsync(detailed));
 			}
 		}
 
@@ -77,7 +77,7 @@ public class PalletApplicationService : IPalletApplicationService
 		}
 
 		var updated = await _palletRepository.UpdateAsync(pallet);
-		return await MapToDetailDtoAsync(updated);
+		return MapToDetailDtoAsync(updated);
 	}
 
 	public async Task DeleteAsync(string id)
@@ -90,17 +90,17 @@ public class PalletApplicationService : IPalletApplicationService
 	{
 		await _palletRepository.LoadItemAsync(palletId, itemId);
 		var updated = await _palletRepository.GetWithContentsAsync(palletId);
-		return await MapToDetailDtoAsync(updated!);
+		return MapToDetailDtoAsync(updated!);
 	}
 
 	public async Task<PalletDetailDto> UnloadItemAsync(string palletId, string itemId)
 	{
 		await _palletRepository.UnloadItemAsync(palletId, itemId);
 		var updated = await _palletRepository.GetWithContentsAsync(palletId);
-		return await MapToDetailDtoAsync(updated!);
+		return  MapToDetailDtoAsync(updated!);
 	}
 
-	private async Task<PalletDetailDto> MapToDetailDtoAsync(Pallet pallet)
+	private PalletDetailDto MapToDetailDtoAsync(Pallet pallet)
 	{
 		var dto = new PalletDetailDto
 		{

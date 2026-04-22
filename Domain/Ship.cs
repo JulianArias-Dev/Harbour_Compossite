@@ -1,8 +1,6 @@
 namespace Harbour.Domain;
 
-/// <summary>
 /// Estados posibles de un barco en el ciclo de vida de la simulación
-/// </summary>
 public enum ShipStatus
 {
 	/// El barco está disponible para recibir carga
@@ -12,11 +10,9 @@ public enum ShipStatus
 	Sailing = 1
 }
 
-/// <summary>
 /// Representa un barco/navío (cliente del patrón Composite)
 /// Gestiona la carga total incluyendo restricciones de capacidad mínima y máxima.
 /// Implementa reglas de negocio: zarpe solo si alcanza capacidad mínima, anclaje para disponibilidad.
-/// </summary>
 public class Ship
 {
 	private readonly List<StorageItem> _cargo = new();
@@ -102,10 +98,8 @@ public class Ship
 		return false;
 	}
 
-	/// <summary>
 	/// Zarpa el barco (transición a estado "En Tránsito")
 	/// Regla 3: El barco NO puede zarpar si la carga actual es menor que la capacidad mínima.
-	/// </summary>
 	public void Sail()
 	{
 		if (Status == ShipStatus.Sailing)
@@ -123,10 +117,8 @@ public class Ship
 		Status = ShipStatus.Sailing;
 	}
 
-	/// <summary>
 	/// Ancla el barco (transición a estado "Disponible")
 	/// Permite volver a recibir carga o realizar otras operaciones.
-	/// </summary>
 	public void Anchor()
 	{
 		if (Status == ShipStatus.Available)

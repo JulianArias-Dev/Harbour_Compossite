@@ -1,40 +1,26 @@
 namespace Harbour.Repositories;
 
-/// <summary>
 /// Interfaz segregada para operaciones específicas de CompositeStorage (Pallets y Containers).
 /// Amplía IStorageRepository<T> con operaciones de carga/descarga.
-/// </summary>
 public interface ICompositeStorageRepository<T> : IStorageRepository<T> where T : CompositeStorage
 {
-	/// <summary>
 	/// Obtiene un CompositeStorage con toda su jerarquía de contenidos cargada (para calcular pesos totales)
-	/// </summary>
 	Task<T?> GetWithContentsAsync(string id);
 
-	/// <summary>
 	/// Carga un objeto dentro de otro validando reglas de peso/capacidad y restricción de sellado
-	/// </summary>
 	Task LoadItemAsync(string parentId, string childId);
 
-	/// <summary>
 	/// Descarga un objeto del contenedor padre
-	/// </summary>
 	Task UnloadItemAsync(string parentId, string childId);
 
-	/// <summary>
 	/// Obtiene el peso total del contenedor (peso propio + todos los contenidos)
-	/// </summary>
 	Task<decimal> GetTotalWeightAsync(string id);
 
-	/// <summary>
 	/// Obtiene el número de elementos contenidos (incluyendo anidados)
-	/// </summary>
 	Task<int> GetItemCountAsync(string id);
 }
 
-/// <summary>
 /// Implementación genérica del repositorio para CompositeStorage
-/// </summary>
 public class CompositeStorageRepository<T> : ICompositeStorageRepository<T> where T : CompositeStorage
 {
 	protected readonly Infrastructure.Data.HarbourDbContext _context;
@@ -146,9 +132,7 @@ public class CompositeStorageRepository<T> : ICompositeStorageRepository<T> wher
 		return item?.GetItemCount() ?? 0;
 	}
 
-	/// <summary>
 	/// Carga recursivamente todos los contenidos de un CompositeStorage
-	/// </summary>
 	private async Task LoadCompositeContentsRecursivelyAsync(CompositeStorage composite)
 	{
 		if (composite == null)
@@ -171,9 +155,7 @@ public class CompositeStorageRepository<T> : ICompositeStorageRepository<T> wher
 		}
 	}
 
-	/// <summary>
 	/// Obtiene todos los descendientes recursivamente de un elemento (BFS)
-	/// </summary>
 	private async Task<List<StorageItem>> GetAllDescendantsAsync(string parentId)
 	{
 		var descendants = new List<StorageItem>();

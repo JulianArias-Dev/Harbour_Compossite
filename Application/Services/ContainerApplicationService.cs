@@ -38,7 +38,7 @@ public class ContainerApplicationService : IContainerApplicationService
 
 		var container = new Container(spec);
 		var created = await _containerRepository.AddAsync(container);
-		return await MapToDetailDtoAsync(created);
+		return MapToDetailDtoAsync(created);
 	}
 
 	public async Task<ContainerDetailDto> GetByIdAsync(string id)
@@ -46,7 +46,7 @@ public class ContainerApplicationService : IContainerApplicationService
 		var container = await _containerRepository.GetWithContentsAsync(id)
 			?? throw new KeyNotFoundException($"Container con ID '{id}' no encontrado");
 
-		return await MapToDetailDtoAsync(container);
+		return MapToDetailDtoAsync(container);
 	}
 
 	public async Task<IEnumerable<ContainerDetailDto>> GetAllAsync()
@@ -59,7 +59,7 @@ public class ContainerApplicationService : IContainerApplicationService
 			var detailed = await _containerRepository.GetWithContentsAsync(container.Id);
 			if (detailed != null)
 			{
-				result.Add(await MapToDetailDtoAsync(detailed));
+				result.Add(MapToDetailDtoAsync(detailed));
 			}
 		}
 
@@ -77,7 +77,7 @@ public class ContainerApplicationService : IContainerApplicationService
 		}
 
 		var updated = await _containerRepository.UpdateAsync(container);
-		return await MapToDetailDtoAsync(updated);
+		return MapToDetailDtoAsync(updated);
 	}
 
 	public async Task DeleteAsync(string id)
@@ -90,17 +90,17 @@ public class ContainerApplicationService : IContainerApplicationService
 	{
 		await _containerRepository.LoadItemAsync(containerId, itemId);
 		var updated = await _containerRepository.GetWithContentsAsync(containerId);
-		return await MapToDetailDtoAsync(updated!);
+		return MapToDetailDtoAsync(updated!);
 	}
 
 	public async Task<ContainerDetailDto> UnloadItemAsync(string containerId, string itemId)
 	{
 		await _containerRepository.UnloadItemAsync(containerId, itemId);
 		var updated = await _containerRepository.GetWithContentsAsync(containerId);
-		return await MapToDetailDtoAsync(updated!);
+		return MapToDetailDtoAsync(updated!);
 	}
 
-	private async Task<ContainerDetailDto> MapToDetailDtoAsync(Container container)
+	private ContainerDetailDto MapToDetailDtoAsync(Container container)
 	{
 		var dto = new ContainerDetailDto
 		{

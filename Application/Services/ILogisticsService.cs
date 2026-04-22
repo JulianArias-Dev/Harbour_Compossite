@@ -1,5 +1,3 @@
-using Harbour.Domain;
-
 namespace Harbour.Application.Services;
 
 /// <summary>
@@ -7,28 +5,7 @@ namespace Harbour.Application.Services;
 /// </summary>
 public interface ILogisticsService
 {
-    // Operaciones de creación
-
-    /// <summary>
-    /// Crea una nueva caja
-    /// </summary>
-    Task<Box> CreateBoxAsync(decimal selfWeight, string destination);
-
-    /// <summary>
-    /// Crea un nuevo pallet
-    /// </summary>
-    Task<Pallet> CreatePalletAsync(int palletTypeSpecId);
-
-    /// <summary>
-    /// Crea un nuevo contenedor
-    /// </summary>
-    Task<Container> CreateContainerAsync(int containerTypeSpecId);
-
-    /// <summary>
-    /// Crea un nuevo barco
-    /// </summary>
-    Task<Ship> CreateShipAsync(decimal maxCapacity, decimal minCapacity, bool spotShip = false);
-
+        
     // Operaciones de carga y asignación
 
     /// <summary>
@@ -58,8 +35,4 @@ public interface ILogisticsService
     /// </summary>
     Task<IEnumerable<T>> GetItemsByTypeAsync<T>() where T : StorageItem;
 
-    /// <summary>
-    /// Obtiene la información de un barco incluyendo su carga
-    /// </summary>
-    Task<Ship?> GetShipAsync(string shipId);
 }

@@ -25,15 +25,6 @@ public class BoxesController : ControllerBase
 	/// <summary>
 	/// Crea una nueva caja
 	/// </summary>
-	/// <remarks>
-	/// Ejemplo de request:
-	/// ```
-	/// {
-	///     "selfWeight": 5.5,
-	///     "destination": "Madrid"
-	/// }
-	/// ```
-	/// </remarks>
 	[HttpPost]
 	[ProducesResponseType(typeof(ApiResponse<BoxDto>), StatusCodes.Status201Created)]
 	[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]

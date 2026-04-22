@@ -1,9 +1,7 @@
 ﻿namespace Harbour.Repositories;
 
-/// <summary>
 /// Interfaz segregada genérica para operaciones CRUD de elementos almacenables.
 /// Implementa ISP: responsabilidades específicas sin métodos no utilizados.
-/// </summary>
 public interface IStorageRepository<T> where T : StorageItem
 {
 	/// Obtiene un elemento por su ID
