@@ -1,0 +1,6 @@
+@Harbour_HostAddress = http://localhost:5072
+
+GET {{Harbour_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
